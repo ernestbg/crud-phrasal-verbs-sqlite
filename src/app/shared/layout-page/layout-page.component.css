@@ -1,0 +1,11 @@
+.card-container {
+    overflow-x: hidden
+}
+
+.card-container {
+    padding: 16px;
+}
+
+.mat-card {
+    width: 100%;
+}

@@ -1,0 +1,28 @@
+<ng-template #divLoading>
+    <mat-grid-list cols="1">
+        <mat-grid-tile>
+            <mat-spinner></mat-spinner>
+        </mat-grid-tile>
+    </mat-grid-list>
+</ng-template>
+<button mat-button (click)="goBack()"><i class="material-icons">arrow_back</i></button>
+
+<mat-list *ngIf="phrasalVerb; else divLoading">
+    <mat-list-item>
+        <b>Headword: </b>{{phrasalVerb.headword}}
+    </mat-list-item>
+    <mat-list-item>
+        <b>Definition: </b>{{phrasalVerb.definition}}
+    </mat-list-item>
+    <mat-list-item>
+        <b>Example: </b>{{phrasalVerb.example}}
+    </mat-list-item>
+    <mat-list-item>
+        <b>Level: </b>{{phrasalVerb.level}}
+    </mat-list-item>
+    <mat-list-item>
+        <b>Sublevel: </b>{{phrasalVerb.sublevel}}
+    </mat-list-item>
+</mat-list>
+
+<button mat-raised-button color="warn" (click)="deletePhrasalVerb()">Delete</button>

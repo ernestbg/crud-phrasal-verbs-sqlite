@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="search-field">
+        <mat-form-field>
+            <input matInput type="text" [(ngModel)]="searchTerm" (keyup.enter)="search()"
+                placeholder="Search by Headword">
+            <button mat-button matSuffix (click)="search()">
+                <mat-icon>search</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+    <div class="spacer"></div>
+    <div class="button-container">
+        <button (click)="addPhrasalVerb()" mat-raised-button color="primary"><mat-icon>add</mat-icon>Add</button>
+    </div>
+</div>
+
+
+<div class="grid bm-8">
+    <div *ngFor="let phrasalVerb of filteredPhrasalVerbs" class="col-12 sm:col-4 md:col-3 xl:col-2">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>{{phrasalVerb.headword}}</mat-card-title>
+                <mat-card-subtitle>{{phrasalVerb.definition}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content class="mt-2">
+                <p>{{phrasalVerb.level}}</p>
+                <mat-chip-listbox>
+                    <mat-chip>
+                        {{phrasalVerb.sublevel}}
+                    </mat-chip>
+                </mat-chip-listbox>
+            </mat-card-content>
+            <mat-divider></mat-divider>
+            <mat-card-actions>
+                <button (click)="editPhrasalVerb(phrasalVerb.id)" color="primary" mat-button mat-raised>
+                    <mat-icon>edit</mat-icon>Edit
+                </button>
+                <span class="spacer"></span>
+                <button mat-button mat-raised color="primary" [routerLink]="['/dashboard/phrasal-verbs-firestore', phrasalVerb.id]">
+                    <mat-icon>more_horiz</mat-icon>More
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>
+
+
+<!-- <mat-paginator [length]="totalItems" [pageSize]="pageSize" (page)="onPageChange($event)"></mat-paginator> -->
