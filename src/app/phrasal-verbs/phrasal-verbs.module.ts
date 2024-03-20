@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { LayoutRoutingModule } from '../shared/layout-page/layout.routing.module';
 import { ModalFormComponent } from './components/modal-form.component';
 import { MaterialModule } from '../material/material.module';
+import { HttpClientModule } from '@angular/common/http';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @NgModule({
@@ -22,6 +24,8 @@ import { MaterialModule } from '../material/material.module';
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
+    HttpClientModule,
+    MatPaginatorModule
   ]
 })
 export class PhrasalVerbsModule { }

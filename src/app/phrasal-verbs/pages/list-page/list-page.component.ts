@@ -19,32 +19,46 @@ export class ListPageComponent implements OnInit {
   constructor(private phrasalVerbsService: PhrasalVerbsService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
-   /*  this.phrasalVerbsService.getAllPhrasalVerbs()
-      .pipe(
-        tap((phrasalVerbs: any[]) => {
-          this.phrasalVerbs = phrasalVerbs.map((e: any) => {
-            const data = e.payload.doc.data();
-            data.id = e.payload.doc.id;
-            return data;
-          });
-          this.filteredPhrasalVerbs = this.phrasalVerbs;
-        })
-      )
-      .subscribe({
-        error: err => {
-          console.log('Error while fetching data:' + err);
-        }
-      }); */
+    this.getAllPhrasalVerbs();
+
+    /*  this.phrasalVerbsService.getAllPhrasalVerbs()
+       .pipe(
+         tap((phrasalVerbs: any[]) => {
+           this.phrasalVerbs = phrasalVerbs.map((e: any) => {
+             const data = e.payload.doc.data();
+             data.id = e.payload.doc.id;
+             return data;
+           });
+           this.filteredPhrasalVerbs = this.phrasalVerbs;
+         })
+       )
+       .subscribe({
+         error: err => {
+           console.log('Error while fetching data:' + err);
+         }
+       }); */
 
     /*  this.phrasalVerbsService.getTotalItems().subscribe(total => {
        this.totalItems = total;
      }); */
   }
 
+  getAllPhrasalVerbs(): void {
+    this.phrasalVerbsService.getAllPhrasalVerbs()
+      .subscribe(phrasalVerbs => {
+        this.phrasalVerbs = phrasalVerbs;
+        this.filteredPhrasalVerbs = this.phrasalVerbs;
+      });
+  }
+
   search() {
     this.filteredPhrasalVerbs = this.phrasalVerbs.filter(phrasalVerb =>
-      phrasalVerb.headword.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
+      phrasalVerb.headword?.toLowerCase().includes(this.searchTerm.toLowerCase())
+    ).sort((a, b) => {
+      const headwordA = a.headword?.toLowerCase() || '';
+      const headwordB = b.headword?.toLowerCase() || '';
+      return headwordA.localeCompare(headwordB);
+    });
   }
 
   openModalForm(title: string, id?: any) {

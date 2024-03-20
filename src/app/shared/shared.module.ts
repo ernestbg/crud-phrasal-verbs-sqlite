@@ -4,6 +4,7 @@ import { MaterialModule } from '../material/material.module';
 import { LayoutPageComponent } from './layout-page/layout-page.component';
 import { RouterModule } from '@angular/router';
 import { PhrasalVerbsModule } from '../phrasal-verbs/phrasal-verbs.module';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -14,7 +15,9 @@ import { PhrasalVerbsModule } from '../phrasal-verbs/phrasal-verbs.module';
     CommonModule,
     PhrasalVerbsModule,
     MaterialModule,
-    RouterModule
+    RouterModule,
+    HttpClientModule
+    
   ]
 })
 export class SharedModule { }

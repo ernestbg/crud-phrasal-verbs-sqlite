@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, switchMap } from 'rxjs';
 import { PhrasalVerb } from '../../interfaces/phrasal-verb.interface';
-//import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { PhrasalVerbsService } from '../../services/phrasal-verbs.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class DetailsPageComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    /* this.phrasalVerb$ = this.activatedRoute.params.pipe(
+    this.phrasalVerb$ = this.activatedRoute.params.pipe(
       switchMap(({ id }) => this.phrasalVerbService.getPhrasalVerbById(id))
     );
     this.phrasalVerb$.subscribe({
@@ -34,11 +34,11 @@ export class DetailsPageComponent implements OnInit {
       error: (error) => {
         console.error('Error al obtener el documento:', error);
       }
-    }); */
+    });
   }
 
   deletePhrasalVerb() {
-    /* const id = this.activatedRoute.snapshot.params['id'];
+    const id = this.activatedRoute.snapshot.params['id'];
     Swal.fire({
       title: '¿Are you sure?',
       text: "¡You won't be able to reverse this!",
@@ -58,12 +58,12 @@ export class DetailsPageComponent implements OnInit {
           'success'
         );
       }
-    }); */
+    });
   }
 
   goBack() {
     this.router.navigateByUrl('/dashboard/phrasal-verbs-firestore');
-  } 
+  }
 }
 
 
