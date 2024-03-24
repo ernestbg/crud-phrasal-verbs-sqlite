@@ -32,11 +32,14 @@
             </mat-card-content>
             <mat-divider></mat-divider>
             <mat-card-actions>
-                <button (click)="editPhrasalVerb(phrasalVerb.id)" [routerLink]="['/dashboard/phrasal-verbs-firestore', phrasalVerb.id]" color="primary" mat-button mat-raised>
+                <button (click)="editPhrasalVerb(phrasalVerb.id)"
+                    [routerLink]="['/dashboard/phrasal-verbs-sqlite', phrasalVerb.id]" color="primary" mat-button
+                    mat-raised>
                     <mat-icon>edit</mat-icon>Edit
                 </button>
                 <span class="spacer"></span>
-                <button mat-button mat-raised color="primary" [routerLink]="['/dashboard/phrasal-verbs-firestore', phrasalVerb.id]">
+                <button mat-button mat-raised color="primary"
+                    [routerLink]="['/dashboard/phrasal-verbs-sqlite', phrasalVerb.id]">
                     <mat-icon>more_horiz</mat-icon>More
                 </button>
             </mat-card-actions>

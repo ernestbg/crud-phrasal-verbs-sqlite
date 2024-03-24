@@ -1,13 +1,13 @@
 .mat-mdc-form-field {
-    width: 98%;
-    margin: 1%;
+    width: 100%;
 }
 
-button {
-    margin: 2px;
-}
 
 .mat-success {
     background-color: green;
     color: #fff;
 }
+
+
+
+  

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, map, take } from 'rxjs';
+import { Observable } from 'rxjs';
 import { PhrasalVerb } from '../interfaces/phrasal-verb.interface';
-//import Swal from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
 
 
@@ -17,29 +16,15 @@ export class PhrasalVerbsService {
   constructor(private http: HttpClient) { }
 
 
-  getAllPhrasalVerbs(): Observable<PhrasalVerb[]> {
-    return this.http.get<PhrasalVerb[]>(this.baseUrl);
+  getAllPhrasalVerbs(): Observable<{ phrasalVerbs: PhrasalVerb[], total: number }> {
+    return this.http.get<{ phrasalVerbs: PhrasalVerb[], total: number }>(this.baseUrl);
   }
 
 
-
-  /*  getTotalItems(): Observable<number> {
-    return this.angularFirestore.collection('/PhrasalVerbs').get().pipe(
-      map(collection => collection.size)
-    );
-  } */
   getPhrasalVerbById(id: string): Observable<PhrasalVerb> {
     const url = `${this.baseUrl}/${id}`;
     return this.http.get<PhrasalVerb>(url);
   }
-
-  /* searchPhrasalVerbs(searchTerm: string): Observable<PhrasalVerb[]> {
-    return this.angularFirestore.collection<PhrasalVerb>('/PhrasalVerbs', ref =>
-      ref.where('headword', '>=', searchTerm)
-        .where('headword', '<=', searchTerm + '\uf8ff')
-        .orderBy('headword')
-    ).valueChanges({ idField: 'id' });
-  } */
 
 
   addPhrasalVerb(phrasalVerb: PhrasalVerb): Observable<PhrasalVerb> {
@@ -52,16 +37,9 @@ export class PhrasalVerbsService {
     return this.http.patch<PhrasalVerb>(url, phrasalVerb);
   }
 
-  deletePhrasalVerb(id: string): void {
+  deletePhrasalVerb(id: string): Observable<void> {
     const url = `${this.baseUrl}/${id}`;
-    this.http.delete(url).subscribe(
-      () => {
-        console.log('Phrasal verb deleted successfully.');
-      },
-      (error) => {
-        console.error('Error deleting phrasal verb:', error);
-      }
-    );
+    return this.http.delete<void>(url);
   }
 
 }

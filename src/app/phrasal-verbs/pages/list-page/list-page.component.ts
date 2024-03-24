@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PhrasalVerb } from '../../interfaces/phrasal-verb.interface';
 import { MatDialog } from '@angular/material/dialog';
-import { tap } from 'rxjs';
 import { PhrasalVerbsService } from '../../services/phrasal-verbs.service';
 import { ModalFormComponent } from '../../components/modal-form.component';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-list-page',
@@ -15,39 +15,22 @@ export class ListPageComponent implements OnInit {
   public filteredPhrasalVerbs: PhrasalVerb[] = [];
   public searchTerm: string = '';
   public totalItems: number = 0;
+  public pageSize: number = 2; 
+  public currentPage: number = 1;
+  public pagedPhrasalVerbs: PhrasalVerb[] = []; // Esta es la lista de phrasal verbs a mostrar en la página actual
 
   constructor(private phrasalVerbsService: PhrasalVerbsService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getAllPhrasalVerbs();
-
-    /*  this.phrasalVerbsService.getAllPhrasalVerbs()
-       .pipe(
-         tap((phrasalVerbs: any[]) => {
-           this.phrasalVerbs = phrasalVerbs.map((e: any) => {
-             const data = e.payload.doc.data();
-             data.id = e.payload.doc.id;
-             return data;
-           });
-           this.filteredPhrasalVerbs = this.phrasalVerbs;
-         })
-       )
-       .subscribe({
-         error: err => {
-           console.log('Error while fetching data:' + err);
-         }
-       }); */
-
-    /*  this.phrasalVerbsService.getTotalItems().subscribe(total => {
-       this.totalItems = total;
-     }); */
   }
 
   getAllPhrasalVerbs(): void {
     this.phrasalVerbsService.getAllPhrasalVerbs()
-      .subscribe(phrasalVerbs => {
-        this.phrasalVerbs = phrasalVerbs;
+      .subscribe(response => {
+        this.phrasalVerbs = response.phrasalVerbs;
         this.filteredPhrasalVerbs = this.phrasalVerbs;
+        this.totalItems = response.total;
       });
   }
 
@@ -80,5 +63,19 @@ export class ListPageComponent implements OnInit {
 
   addPhrasalVerb() {
     this.openModalForm('Add', '');
+  }
+
+  onPageChange(event: PageEvent) {
+    const startIndex = event.pageIndex * event.pageSize;
+    const endIndex = startIndex + event.pageSize;
+    this.currentPage = event.pageIndex + 1;
+    // Aplicar filtro en la página actual
+    this.pagedPhrasalVerbs = this.phrasalVerbs.filter(phrasalVerb =>
+      phrasalVerb.headword?.toLowerCase().includes(this.searchTerm.toLowerCase())
+    ).sort((a, b) => {
+      const headwordA = a.headword?.toLowerCase() || '';
+      const headwordB = b.headword?.toLowerCase() || '';
+      return headwordA.localeCompare(headwordB);
+    }).slice(startIndex, endIndex);
   }
 }

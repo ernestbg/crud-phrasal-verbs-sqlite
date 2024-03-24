@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 import { PhrasalVerb } from '../../interfaces/phrasal-verb.interface';
 import Swal from 'sweetalert2';
 import { PhrasalVerbsService } from '../../services/phrasal-verbs.service';
@@ -49,20 +49,38 @@ export class DetailsPageComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.phrasalVerbService.deletePhrasalVerb(id);
-        this.router.navigate(['/dashboard/phrasal-verbs-firestore']);
-
-        Swal.fire(
-          'Deleted!',
-          'The data has been deleted.',
-          'success'
-        );
+        // Llama al método deletePhrasalVerb del servicio y maneja la respuesta
+        this.phrasalVerbService.deletePhrasalVerb(id)
+          .pipe(
+            tap({
+              next: () => {
+                // Eliminación exitosa
+                console.log('Phrasal verb deleted successfully.');
+                // Redirige a la página de phrasal verbs
+                this.router.navigate(['/dashboard/phrasal-verbs-sqlite']);
+                // Muestra un mensaje de éxito
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Deleted!',
+                  showConfirmButton: false,
+                  timer: 1500
+                });
+              },
+              error: (error) => {
+                // Error al eliminar el phrasal verb
+                console.error('Error deleting phrasal verb:', error);
+                // Muestra un mensaje de error
+                Swal.fire('Error!', 'Failed to delete the data.', 'error');
+              }
+            })
+          )
+          .subscribe();
       }
     });
   }
 
   goBack() {
-    this.router.navigateByUrl('/dashboard/phrasal-verbs-firestore');
+    this.router.navigateByUrl('/dashboard/phrasal-verbs-sqlite');
   }
 }
 

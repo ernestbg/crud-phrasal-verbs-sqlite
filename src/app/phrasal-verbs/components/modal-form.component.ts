@@ -3,8 +3,8 @@ import { FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PhrasalVerbsService } from '../services/phrasal-verbs.service';
 import { PhrasalVerb } from '../interfaces/phrasal-verb.interface';
-import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs';
+import Swal from 'sweetalert2';
 
 
 
@@ -73,20 +73,43 @@ export class ModalFormComponent implements OnInit {
       sublevel: this.modalForm.value.sublevel || ''
     };
   }
-
   private addPhrasalVerb(phrasalVerb: PhrasalVerb) {
     this.phrasalVerbsService.addPhrasalVerb(phrasalVerb)
-      .pipe(finalize(() => this.handleClose()))
       .subscribe({
+        next: () => {
+          this.handleClose('Phrasal verb added successfully!');
+        },
         error: error => {
           console.error('Error al agregar phrasal verb:', error);
+          if (error.status === 500 && error.error && error.error.error === 'Error al insertar el phrasal verb') {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Phrasal verb already exist.',
+              showConfirmButton: false,
+              timer: 1500
+            }).then(() => {
+              this.closeModalForm();
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Se produjo un error al agregar el phrasal verb.',
+              showConfirmButton: false,
+              timer: 1500
+            }).then(() => {
+              this.closeModalForm();
+            });
+          }
         }
       });
   }
 
+
   private updatePhrasalVerb(phrasalVerb: PhrasalVerb) {
     this.phrasalVerbsService.updatePhrasalVerb(this.inputData.id, phrasalVerb)
-      .pipe(finalize(() => this.handleClose()))
+      .pipe(finalize(() => this.handleClose('Phrasal verb updated successfully!')))
       .subscribe({
         error: error => {
           console.error('Error al actualizar phrasal verb:', error);
@@ -94,12 +117,18 @@ export class ModalFormComponent implements OnInit {
       });
   }
 
-  private handleClose() {
-    this.modalForm.reset();
-    this.matDialogRef.close();
-    window.location.reload();
+  private handleClose(title: string) {
+    Swal.fire({
+      icon: 'success',
+      title: title,
+      showConfirmButton: false,
+      timer: 1500
+    }).then(() => {
+      this.modalForm.reset();
+      this.matDialogRef.close();
+      window.location.reload();
+    });
   }
-
 
   closeModalForm() {
     this.matDialogRef.close('closing');

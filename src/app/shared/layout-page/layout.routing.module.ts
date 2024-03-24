@@ -11,8 +11,8 @@ const routes: Routes = [
     path: '',
     component: LayoutPageComponent,
     children: [
-      { path: 'phrasal-verbs-firestore', component: ListPageComponent },
-      { path: 'phrasal-verbs-firestore/:id', component: DetailsPageComponent }
+      { path: 'phrasal-verbs-sqlite', component: ListPageComponent },
+      { path: 'phrasal-verbs-sqlite/:id', component: DetailsPageComponent }
     ]
   }
 ];

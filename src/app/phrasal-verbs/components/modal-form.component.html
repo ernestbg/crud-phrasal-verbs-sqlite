@@ -1,29 +1,31 @@
-<form [formGroup]="modalForm" (ngSubmit)="savePhrasalVerb()">
-    <h1 mat-dialog-title>{{ inputData.title }}</h1>
-    <div mat-dialog-content>
-        <mat-form-field>
-            <mat-label>Headword</mat-label>
-            <input formControlName="headword" matInput>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Definiton</mat-label>
-            <input formControlName="definition" matInput>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Example</mat-label>
-            <input formControlName="example" matInput>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Level</mat-label>
-            <input formControlName="level" matInput>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Sublevel</mat-label>
-            <input formControlName="sublevel" matInput>
-        </mat-form-field>
-    </div>
-    <div mat-dialog-actions>
-        <button type="submit" color="success" mat-raised-button>Save</button>
-        <button type="button" color="warn" mat-raised-button (click)="closeModalForm()">Cancel</button>
-    </div>
-</form>
+<div class="form-container">
+    <form [formGroup]="modalForm" (ngSubmit)="savePhrasalVerb()">
+        <h1 mat-dialog-title>{{ inputData.title }}</h1>
+        <div mat-dialog-content>
+            <mat-form-field>
+                <mat-label>Headword</mat-label>
+                <input formControlName="headword" matInput>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Definition</mat-label>
+                <input formControlName="definition" matInput>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Example</mat-label>
+                <input formControlName="example" matInput>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Level</mat-label>
+                <input formControlName="level" matInput>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Sublevel</mat-label>
+                <input formControlName="sublevel" matInput>
+            </mat-form-field>
+        </div>
+        <div mat-dialog-actions>
+            <button type="submit" color="success" mat-raised-button>Save</button>
+            <button type="button" color="warn" mat-raised-button (click)="closeModalForm()">Cancel</button>
+        </div>
+    </form>
+</div>
