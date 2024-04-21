@@ -16,15 +16,19 @@ export class PhrasalVerbsService {
   constructor(private http: HttpClient) { }
 
 
-  getAllPhrasalVerbs(): Observable<{ phrasalVerbs: PhrasalVerb[], total: number }> {
-    return this.http.get<{ phrasalVerbs: PhrasalVerb[], total: number }>(this.baseUrl);
+  getAllPhrasalVerbs(): Observable<PhrasalVerb[]> {
+    return this.http.get<PhrasalVerb[]>(this.baseUrl);
   }
 
 
-  getPhrasalVerbById(id: string): Observable<PhrasalVerb> {
-    const url = `${this.baseUrl}/${id}`;
+getPhrasalVerbById(phrasalVerbId: string, definitionId: string): Observable<PhrasalVerb> {
+    // Construye la URL con ambos parámetros
+    const url = `${this.baseUrl}/${phrasalVerbId}/definition/${definitionId}`;
+    
+    // Realiza la solicitud HTTP GET y devuelve un Observable de tipo PhrasalVerb
     return this.http.get<PhrasalVerb>(url);
-  }
+}
+
 
 
   addPhrasalVerb(phrasalVerb: PhrasalVerb): Observable<PhrasalVerb> {

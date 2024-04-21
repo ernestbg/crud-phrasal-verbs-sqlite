@@ -1,8 +1,8 @@
 export interface PhrasalVerb {
     id?: string,
     headword: string,
+    definitionId?:string,
     definition: string,
-    example: string,
-    level: string,
-    sublevel: string
+    examples: string[],
+    level: string
 }

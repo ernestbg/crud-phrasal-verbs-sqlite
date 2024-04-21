@@ -22,9 +22,8 @@ export class ModalFormComponent implements OnInit {
   modalForm = this.formBuilder.group({
     headword: this.formBuilder.control(''),
     definition: this.formBuilder.control(''),
-    example: this.formBuilder.control(''),
+    examples: this.formBuilder.control(['']),
     level: this.formBuilder.control(''),
-    sublevel: this.formBuilder.control(''),
   });
 
   constructor(
@@ -36,23 +35,25 @@ export class ModalFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.inputData = this.data;
-    if (this.inputData.id) {
-      this.editMode = true; // Establecer el modo de edición si hay un ID
-      this.setModalData(this.inputData.id);
+    // Asegúrate de que los datos de entrada incluyan id y definitionId
+    if (this.inputData.id && this.inputData.definitionId) {
+      this.editMode = true; // Establece el modo de edición
+      this.setModalData(this.inputData.id, this.inputData.definitionId);
     }
   }
 
-  setModalData(id: string) {
-    this.phrasalVerbsService.getPhrasalVerbById(id)
-      .subscribe(phrasalVerb => {
-        this.modalForm.setValue({
-          headword: phrasalVerb.headword,
-          definition: phrasalVerb.definition,
-          example: phrasalVerb.example,
-          level: phrasalVerb.level,
-          sublevel: phrasalVerb.sublevel,
-        });
+  setModalData(id: string, definitionId: string): void {
+    // Recupera el phrasal verb con la definición específica
+    this.phrasalVerbsService.getPhrasalVerbById(id, definitionId).subscribe(phrasalVerb => {
+      console.log(phrasalVerb)
+      // Establece los valores del formulario
+      this.modalForm.setValue({
+        headword: phrasalVerb.headword,
+        definition: phrasalVerb.definition,
+        examples: phrasalVerb.examples,
+        level: phrasalVerb.level
       });
+    });
   }
 
   savePhrasalVerb() {
@@ -68,9 +69,8 @@ export class ModalFormComponent implements OnInit {
     return {
       headword: this.modalForm.value.headword || '',
       definition: this.modalForm.value.definition || '',
-      example: this.modalForm.value.example || '',
-      level: this.modalForm.value.level || '',
-      sublevel: this.modalForm.value.sublevel || ''
+      examples: this.modalForm.value.examples || [''],
+      level: this.modalForm.value.level || ''
     };
   }
   private addPhrasalVerb(phrasalVerb: PhrasalVerb) {

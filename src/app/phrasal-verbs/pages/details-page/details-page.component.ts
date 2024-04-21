@@ -22,13 +22,12 @@ export class DetailsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.phrasalVerb$ = this.activatedRoute.params.pipe(
-      switchMap(({ id }) => this.phrasalVerbService.getPhrasalVerbById(id))
+      switchMap(({ id, definitionId }) => this.phrasalVerbService.getPhrasalVerbById(id, definitionId))
     );
     this.phrasalVerb$.subscribe({
       next: (phrasalVerb: PhrasalVerb) => {
-        if (!phrasalVerb) return this.router.navigate(['/dashboard/phrasal-verbs-firestore']);
+        if (!phrasalVerb) return this.router.navigate(['/dashboard/phrasal-verbs-sqlite']);
         this.phrasalVerb = phrasalVerb;
-        console.log(phrasalVerb.example)
         return;
       },
       error: (error) => {

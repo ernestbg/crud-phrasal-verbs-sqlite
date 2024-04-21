@@ -23,23 +23,22 @@
                 <mat-card-subtitle>{{phrasalVerb.definition}}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content class="mt-2">
-                <p>{{phrasalVerb.level}}</p>
                 <mat-chip-listbox>
                     <mat-chip>
-                        {{phrasalVerb.sublevel}}
+                        {{phrasalVerb.level}}
                     </mat-chip>
                 </mat-chip-listbox>
             </mat-card-content>
             <mat-divider></mat-divider>
             <mat-card-actions>
-                <button (click)="editPhrasalVerb(phrasalVerb.id)"
-                    [routerLink]="['/dashboard/phrasal-verbs-sqlite', phrasalVerb.id]" color="primary" mat-button
-                    mat-raised>
+                <button (click)="editPhrasalVerb(phrasalVerb.id, phrasalVerb.definitionId)"
+                    [routerLink]="['/dashboard/phrasal-verbs-sqlite',  phrasalVerb.id, 'definition', phrasalVerb.definitionId]"
+                    color="primary" mat-button mat-raised>
                     <mat-icon>edit</mat-icon>Edit
                 </button>
                 <span class="spacer"></span>
                 <button mat-button mat-raised color="primary"
-                    [routerLink]="['/dashboard/phrasal-verbs-sqlite', phrasalVerb.id]">
+                    [routerLink]="['/dashboard/phrasal-verbs-sqlite', phrasalVerb.id, 'definition', phrasalVerb.definitionId]">
                     <mat-icon>more_horiz</mat-icon>More
                 </button>
             </mat-card-actions>
