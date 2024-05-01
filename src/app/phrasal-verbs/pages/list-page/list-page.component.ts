@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PhrasalVerb } from '../../interfaces/phrasal-verb.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { PhrasalVerbsService } from '../../services/phrasal-verbs.service';
-import { ModalFormComponent } from '../../components/modal-form.component';
+import { ModalFormComponent } from '../../components/modal-form/modal-form.component';
 import { PageEvent } from '@angular/material/paginator';
 
 @Component({
@@ -39,9 +39,6 @@ export class ListPageComponent implements OnInit {
         error: error => {
           console.error('Error al obtener los phrasal verbs:', error);
         },
-        complete: () => {
-          console.log('Suscripción completada');
-        }
       });
   }
 

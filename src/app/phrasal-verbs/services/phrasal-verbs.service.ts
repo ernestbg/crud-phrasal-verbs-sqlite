@@ -3,46 +3,34 @@ import { Observable } from 'rxjs';
 import { PhrasalVerb } from '../interfaces/phrasal-verb.interface';
 import { HttpClient } from '@angular/common/http';
 
-
-
-
 @Injectable({
   providedIn: 'root'
 })
 export class PhrasalVerbsService {
 
-  private baseUrl = 'http://localhost:3000/api/phrasal-verbs'; // Ajusta la URL según corresponda
-
+  private baseUrl = 'http://localhost:3000/api/phrasal-verbs'; 
   constructor(private http: HttpClient) { }
-
 
   getAllPhrasalVerbs(): Observable<PhrasalVerb[]> {
     return this.http.get<PhrasalVerb[]>(this.baseUrl);
   }
 
-
-getPhrasalVerbById(phrasalVerbId: string, definitionId: string): Observable<PhrasalVerb> {
-    // Construye la URL con ambos parámetros
+  getPhrasalVerbById(phrasalVerbId: string, definitionId: string): Observable<PhrasalVerb> {
     const url = `${this.baseUrl}/${phrasalVerbId}/definition/${definitionId}`;
-    
-    // Realiza la solicitud HTTP GET y devuelve un Observable de tipo PhrasalVerb
     return this.http.get<PhrasalVerb>(url);
-}
-
-
+  }
 
   addPhrasalVerb(phrasalVerb: PhrasalVerb): Observable<PhrasalVerb> {
     return this.http.post<PhrasalVerb>(this.baseUrl, phrasalVerb);
   }
 
-
-  updatePhrasalVerb(id: string, phrasalVerb: PhrasalVerb): Observable<PhrasalVerb> {
-    const url = `${this.baseUrl}/${id}`;
+  updatePhrasalVerb(phrasalVerbId: string, definitionId: string, phrasalVerb: PhrasalVerb): Observable<PhrasalVerb> {
+    const url = `${this.baseUrl}/${phrasalVerbId}/definition/${definitionId}`;
     return this.http.patch<PhrasalVerb>(url, phrasalVerb);
   }
 
-  deletePhrasalVerb(id: string): Observable<void> {
-    const url = `${this.baseUrl}/${id}`;
+  deletePhrasalVerb(phrasalVerbId: string, definitionId: string): Observable<void> {
+    const url = `${this.baseUrl}/${phrasalVerbId}/definition/${definitionId}`;
     return this.http.delete<void>(url);
   }
 

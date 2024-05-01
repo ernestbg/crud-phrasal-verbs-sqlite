@@ -6,10 +6,11 @@ import { DetailsPageComponent } from './pages/details-page/details-page.componen
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { LayoutRoutingModule } from '../shared/layout-page/layout.routing.module';
-import { ModalFormComponent } from './components/modal-form.component';
+import { ModalFormComponent } from './components/modal-form/modal-form.component';
 import { MaterialModule } from '../material/material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { UpdateModalFormComponent } from './components/update-modal-form/update-modal-form.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     ListPageComponent,
     DetailsPageComponent,
     ModalFormComponent,
+    UpdateModalFormComponent,
   ],
   imports: [
     CommonModule,

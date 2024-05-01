@@ -8,8 +8,7 @@ import { PhrasalVerbsService } from '../../services/phrasal-verbs.service';
 @Component({
   selector: 'app-details-page',
   templateUrl: './details-page.component.html',
-  styles: [
-  ]
+  styleUrls: ['./details-page.component.css']
 })
 export class DetailsPageComponent implements OnInit {
   public phrasalVerb?: PhrasalVerb;
@@ -36,11 +35,23 @@ export class DetailsPageComponent implements OnInit {
     });
   }
 
-  deletePhrasalVerb() {
-    const id = this.activatedRoute.snapshot.params['id'];
+  updatePhrasalVerb() {
+    /* this.phrasalVerb$ = this.activatedRoute.params.pipe(
+      switchMap(({ id, definitionId }) => this.phrasalVerbService.updatePhrasalVerb(id, definitionId))
+      
+    ) */
+  }
+
+  deletePhrasalVerb(): void {
+    // Recupera los parámetros de la ruta: phrasalVerbId y definitionId
+    const phrasalVerbId = this.activatedRoute.snapshot.params['id'];
+    const definitionId = this.activatedRoute.snapshot.params['definitionId'];
+    console.log(phrasalVerbId)
+    console.log(definitionId)
+
     Swal.fire({
-      title: '¿Are you sure?',
-      text: "¡You won't be able to reverse this!",
+      title: 'Are you sure?',
+      text: "You won't be able to reverse this!",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -48,13 +59,13 @@ export class DetailsPageComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        // Llama al método deletePhrasalVerb del servicio y maneja la respuesta
-        this.phrasalVerbService.deletePhrasalVerb(id)
+        // Llama al método deletePhrasalVerb del servicio pasando ambos IDs
+        this.phrasalVerbService.deletePhrasalVerb(phrasalVerbId, definitionId)
           .pipe(
             tap({
               next: () => {
                 // Eliminación exitosa
-                console.log('Phrasal verb deleted successfully.');
+                console.log('Phrasal verb and definition deleted successfully.');
                 // Redirige a la página de phrasal verbs
                 this.router.navigate(['/dashboard/phrasal-verbs-sqlite']);
                 // Muestra un mensaje de éxito
@@ -66,10 +77,10 @@ export class DetailsPageComponent implements OnInit {
                 });
               },
               error: (error) => {
-                // Error al eliminar el phrasal verb
-                console.error('Error deleting phrasal verb:', error);
+                // Error al eliminar el phrasal verb y la definición
+                console.error('Error deleting phrasal verb and definition:', error);
                 // Muestra un mensaje de error
-                Swal.fire('Error!', 'Failed to delete the data.', 'error');
+                Swal.fire('Error!', 'Failed to delete the phrasal verb and definition.', 'error');
               }
             })
           )
@@ -77,6 +88,7 @@ export class DetailsPageComponent implements OnInit {
       }
     });
   }
+
 
   goBack() {
     this.router.navigateByUrl('/dashboard/phrasal-verbs-sqlite');

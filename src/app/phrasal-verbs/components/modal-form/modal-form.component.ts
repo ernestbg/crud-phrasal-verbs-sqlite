@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { PhrasalVerbsService } from '../services/phrasal-verbs.service';
-import { PhrasalVerb } from '../interfaces/phrasal-verb.interface';
+import { PhrasalVerbsService } from '../../services/phrasal-verbs.service';
+import { PhrasalVerb } from '../../interfaces/phrasal-verb.interface';
 import { finalize } from 'rxjs';
 import Swal from 'sweetalert2';
 
@@ -45,7 +45,6 @@ export class ModalFormComponent implements OnInit {
   setModalData(id: string, definitionId: string): void {
     // Recupera el phrasal verb con la definición específica
     this.phrasalVerbsService.getPhrasalVerbById(id, definitionId).subscribe(phrasalVerb => {
-      console.log(phrasalVerb)
       // Establece los valores del formulario
       this.modalForm.setValue({
         headword: phrasalVerb.headword,
@@ -108,7 +107,9 @@ export class ModalFormComponent implements OnInit {
 
 
   private updatePhrasalVerb(phrasalVerb: PhrasalVerb) {
-    this.phrasalVerbsService.updatePhrasalVerb(this.inputData.id, phrasalVerb)
+    const phrasalVerbId = this.inputData.id;
+    const definitionId = this.inputData.definitionId;
+    this.phrasalVerbsService.updatePhrasalVerb(phrasalVerbId, definitionId, phrasalVerb)
       .pipe(finalize(() => this.handleClose('Phrasal verb updated successfully!')))
       .subscribe({
         error: error => {

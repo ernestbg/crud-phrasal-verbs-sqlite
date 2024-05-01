@@ -15,19 +15,14 @@
 </div>
 
 
-<div class="grid bm-8">
+<div class="grid bm-8 ml-2">
     <div *ngFor="let phrasalVerb of filteredPhrasalVerbs" class="col-12 sm:col-4 md:col-3 xl:col-2">
         <mat-card>
             <mat-card-header>
                 <mat-card-title>{{phrasalVerb.headword}}</mat-card-title>
-                <mat-card-subtitle>{{phrasalVerb.definition}}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content class="mt-2">
-                <mat-chip-listbox>
-                    <mat-chip>
-                        {{phrasalVerb.level}}
-                    </mat-chip>
-                </mat-chip-listbox>
+                <mat-card-subtitle>{{phrasalVerb.definition}}</mat-card-subtitle>
             </mat-card-content>
             <mat-divider></mat-divider>
             <mat-card-actions>

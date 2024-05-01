@@ -6,7 +6,7 @@
 }
 
 .search-field {
-    margin-right: auto;
+    margin-top: 10px;
     /* Empujar el campo de búsqueda a la izquierda */
 }
 
@@ -28,6 +28,8 @@ mat-card-content p {
   -webkit-line-clamp: 2; /* Número máximo de líneas de texto permitidas */
   overflow: hidden;
 }
+
+
 
 
 
