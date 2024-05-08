@@ -26,11 +26,6 @@
             </mat-card-content>
             <mat-divider></mat-divider>
             <mat-card-actions>
-                <button (click)="editPhrasalVerb(phrasalVerb.id, phrasalVerb.definitionId)"
-                    [routerLink]="['/dashboard/phrasal-verbs-sqlite',  phrasalVerb.id, 'definition', phrasalVerb.definitionId]"
-                    color="primary" mat-button mat-raised>
-                    <mat-icon>edit</mat-icon>Edit
-                </button>
                 <span class="spacer"></span>
                 <button mat-button mat-raised color="primary"
                     [routerLink]="['/dashboard/phrasal-verbs-sqlite', phrasalVerb.id, 'definition', phrasalVerb.definitionId]">

@@ -1,6 +1,6 @@
 <div class="form-container">
-    <form [formGroup]="modalForm" (ngSubmit)="updatePhrasalVerb()">
-        <h1 mat-dialog-title>Update</h1>
+    <form [formGroup]="modalForm" (ngSubmit)="addPhrasalVerb()">
+        <h1 mat-dialog-title>{{ inputData.title }}</h1>
         <div mat-dialog-content>
             <mat-form-field>
                 <mat-label>Headword</mat-label>
@@ -14,7 +14,7 @@
                 <mat-label>Level</mat-label>
                 <input formControlName="level" matInput>
             </mat-form-field>
-
+            <!-- Itera sobre el `FormArray` para los ejemplos -->
             <div formArrayName="examples">
                 <div *ngFor="let exampleControl of examplesArray.controls; let i = index">
                     <mat-form-field>

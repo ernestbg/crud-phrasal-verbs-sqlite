@@ -7,6 +7,29 @@
     gap: 8px;
 }
 
+/* Estilo para el título "Examples" */
+.examples-title {
+    font-weight: bold;
+    font-size: larger;
+    margin-top: 8px;
+    margin-left: 15px; /* Añade un margen superior para separar el título de otros elementos */
+    margin-bottom: 5px;
+}
 
+/* Estilos para los elementos de ejemplo */
+.example-item {
+    display: flex; /* Usa flexbox para alinear el icono y el texto */
+    align-items: center; /* Alinea verticalmente el icono y el texto */
+    margin-left: 15px;
+    margin-top: 18px;
+   
+}
+
+/* Estilo para el texto de los ejemplos */
+.example-text {
+    font-size: larger;
+}
+
+  
 
 

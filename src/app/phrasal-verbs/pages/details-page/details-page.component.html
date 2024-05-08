@@ -6,28 +6,31 @@
     </mat-grid-list>
 </ng-template>
 
-<mat-list *ngIf="phrasalVerb; else divLoading">
-    <mat-list-item>
-        <b>Headword: </b>{{phrasalVerb.headword}}
-    </mat-list-item>
-    <mat-list-item>
-        <b>Definition: </b>{{phrasalVerb.definition}}
-    </mat-list-item>
-    <mat-list-item>
-        <b>Level: </b>{{phrasalVerb.level}}
-    </mat-list-item>
-    <mat-list-item>
-        <b>Examples: </b>
-        <mat-list>
-            <mat-list-item *ngFor="let example of phrasalVerb.examples">
-                {{example}}
-            </mat-list-item>
-        </mat-list>
-    </mat-list-item>
-</mat-list>
+<div *ngIf="phrasalVerb; else divLoading">
+    <mat-list>
+        <mat-list-item>
+            <b>Headword: </b>{{phrasalVerb.headword}}
+        </mat-list-item>
+        <mat-list-item>
+            <b>Definition: </b>{{phrasalVerb.definition}}
+        </mat-list-item>
+        <mat-list-item>
+            <b>Level: </b>{{phrasalVerb.level}}
+        </mat-list-item>
+        <!-- Estilo para el título "Examples" -->
+        <div class="examples-title">
+            <b>Examples:</b>
+        </div>
+        <!-- Itera sobre los ejemplos -->
+        <div *ngFor="let example of phrasalVerb.examples" class="example-item">
+            <mat-icon>chevron_right</mat-icon>
+            <span class="example-text">{{example}}</span>
+        </div>
+    </mat-list>
 
-<!-- Contenedor para los botones -->
-<div class="buttons-container">
-    <button mat-raised-button color="primary" (click)="updatePhrasalVerb()">Update</button>
-    <button mat-raised-button color="warn" (click)="deletePhrasalVerb()">Delete</button>
+    <!-- Contenedor para los botones -->
+    <div class="buttons-container">
+        <button mat-raised-button color="primary" (click)="openUpdateModalForm()">Update</button>
+        <button mat-raised-button color="warn" (click)="deletePhrasalVerb()">Delete</button>
+    </div>
 </div>

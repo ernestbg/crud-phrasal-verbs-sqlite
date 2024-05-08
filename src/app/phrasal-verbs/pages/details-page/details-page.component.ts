@@ -4,24 +4,36 @@ import { Observable, switchMap, tap } from 'rxjs';
 import { PhrasalVerb } from '../../interfaces/phrasal-verb.interface';
 import Swal from 'sweetalert2';
 import { PhrasalVerbsService } from '../../services/phrasal-verbs.service';
+import { UpdateModalFormComponent } from '../../components/update-modal-form/update-modal-form.component';
+import { MatDialog } from '@angular/material/dialog';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+
+
+
 
 @Component({
   selector: 'app-details-page',
   templateUrl: './details-page.component.html',
   styleUrls: ['./details-page.component.css']
 })
+
+
 export class DetailsPageComponent implements OnInit {
+
+
   public phrasalVerb?: PhrasalVerb;
   phrasalVerb$!: Observable<PhrasalVerb>;
 
-
-  constructor(private phrasalVerbService: PhrasalVerbsService,
+  constructor(
+    private phrasalVerbsService: PhrasalVerbsService,
     private activatedRoute: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.phrasalVerb$ = this.activatedRoute.params.pipe(
-      switchMap(({ id, definitionId }) => this.phrasalVerbService.getPhrasalVerbById(id, definitionId))
+      switchMap(({ id, definitionId }) => this.phrasalVerbsService.getPhrasalVerbById(id, definitionId))
     );
     this.phrasalVerb$.subscribe({
       next: (phrasalVerb: PhrasalVerb) => {
@@ -33,21 +45,33 @@ export class DetailsPageComponent implements OnInit {
         console.error('Error al obtener el documento:', error);
       }
     });
+
   }
 
-  updatePhrasalVerb() {
-    /* this.phrasalVerb$ = this.activatedRoute.params.pipe(
-      switchMap(({ id, definitionId }) => this.phrasalVerbService.updatePhrasalVerb(id, definitionId))
-      
-    ) */
+
+  openUpdateModalForm() {
+    const phrasalVerbId = this.activatedRoute.snapshot.params['id'];
+    const definitionId = this.activatedRoute.snapshot.params['definitionId'];
+    this.dialog.open(UpdateModalFormComponent, {
+      width: '40%',
+      height: '400px',
+      enterAnimationDuration: '150ms',
+      exitAnimationDuration: '150ms',
+      data: {
+        id: phrasalVerbId,
+        definitionId: definitionId
+      }
+    });
   }
+
+  
+
+
 
   deletePhrasalVerb(): void {
     // Recupera los parámetros de la ruta: phrasalVerbId y definitionId
     const phrasalVerbId = this.activatedRoute.snapshot.params['id'];
     const definitionId = this.activatedRoute.snapshot.params['definitionId'];
-    console.log(phrasalVerbId)
-    console.log(definitionId)
 
     Swal.fire({
       title: 'Are you sure?',
@@ -60,7 +84,7 @@ export class DetailsPageComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         // Llama al método deletePhrasalVerb del servicio pasando ambos IDs
-        this.phrasalVerbService.deletePhrasalVerb(phrasalVerbId, definitionId)
+        this.phrasalVerbsService.deletePhrasalVerb(phrasalVerbId, definitionId)
           .pipe(
             tap({
               next: () => {
@@ -89,10 +113,6 @@ export class DetailsPageComponent implements OnInit {
     });
   }
 
-
-  goBack() {
-    this.router.navigateByUrl('/dashboard/phrasal-verbs-sqlite');
-  }
 }
 
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PhrasalVerb } from '../../interfaces/phrasal-verb.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { PhrasalVerbsService } from '../../services/phrasal-verbs.service';
-import { ModalFormComponent } from '../../components/modal-form/modal-form.component';
+import { AddModalFormComponent } from '../../components/modal-form/add-modal-form.component';
 import { PageEvent } from '@angular/material/paginator';
 
 @Component({
@@ -87,7 +87,7 @@ export class ListPageComponent implements OnInit {
   }
 
   openModalForm(title: string, id?: string, definitionId?: string) {
-    this.dialog.open(ModalFormComponent, {
+    this.dialog.open(AddModalFormComponent, {
       width: '40%',
       height: '400px',
       enterAnimationDuration: '150ms',
@@ -100,9 +100,6 @@ export class ListPageComponent implements OnInit {
     });
   }
 
-  editPhrasalVerb(id: any, definitionId: any) {
-    this.openModalForm('Edit', id, definitionId);
-  }
 
   addPhrasalVerb() {
     this.openModalForm('Add', '');

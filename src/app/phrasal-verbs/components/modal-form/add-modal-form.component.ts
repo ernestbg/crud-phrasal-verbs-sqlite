@@ -1,78 +1,59 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormArray, FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PhrasalVerbsService } from '../../services/phrasal-verbs.service';
-import { PhrasalVerb } from '../../interfaces/phrasal-verb.interface';
-import { finalize } from 'rxjs';
 import Swal from 'sweetalert2';
 
 
 
 @Component({
-  selector: 'app-modal-form',
-  templateUrl: './modal-form.component.html',
-  styleUrls: ['./modal-form.component.css']
+  selector: 'app-add-modal-form',
+  templateUrl: './add-modal-form.component.html',
+  styleUrls: ['./add-modal-form.component.css']
 })
-export class ModalFormComponent implements OnInit {
+export class AddModalFormComponent implements OnInit  {
 
   inputData: any;
   closeMessage = 'close';
-  editMode: boolean = false; // Variable para distinguir entre modo de edición y modo de creación
+
+  examplesArray: FormArray= this.formBuilder.array([]); 
 
   modalForm = this.formBuilder.group({
     headword: this.formBuilder.control(''),
     definition: this.formBuilder.control(''),
-    examples: this.formBuilder.control(['']),
+    examples: this.examplesArray,
     level: this.formBuilder.control(''),
   });
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private matDialogRef: MatDialogRef<ModalFormComponent>,
+    private matDialogRef: MatDialogRef<AddModalFormComponent>,
     private formBuilder: FormBuilder,
     private phrasalVerbsService: PhrasalVerbsService
   ) { }
 
   ngOnInit(): void {
     this.inputData = this.data;
-    // Asegúrate de que los datos de entrada incluyan id y definitionId
-    if (this.inputData.id && this.inputData.definitionId) {
-      this.editMode = true; // Establece el modo de edición
-      this.setModalData(this.inputData.id, this.inputData.definitionId);
-    }
   }
 
-  setModalData(id: string, definitionId: string): void {
-    // Recupera el phrasal verb con la definición específica
-    this.phrasalVerbsService.getPhrasalVerbById(id, definitionId).subscribe(phrasalVerb => {
-      // Establece los valores del formulario
-      this.modalForm.setValue({
-        headword: phrasalVerb.headword,
-        definition: phrasalVerb.definition,
-        examples: phrasalVerb.examples,
-        level: phrasalVerb.level
-      });
-    });
+  addExample(): void {
+    const examplesArray = this.modalForm.get('examples') as FormArray;
+    examplesArray.push(this.formBuilder.control(''));
   }
 
-  savePhrasalVerb() {
-    const phrasalVerb = this.buildPhrasalVerb();
-    if (this.editMode) {
-      this.updatePhrasalVerb(phrasalVerb);
-    } else {
-      this.addPhrasalVerb(phrasalVerb);
-    }
+  // Método para eliminar un ejemplo
+  removeExample(index: number): void {
+    const examplesArray = this.modalForm.get('examples') as FormArray;
+    examplesArray.removeAt(index);
   }
 
-  private buildPhrasalVerb(): PhrasalVerb {
-    return {
+  addPhrasalVerb() {
+    const phrasalVerb = {
       headword: this.modalForm.value.headword || '',
       definition: this.modalForm.value.definition || '',
       examples: this.modalForm.value.examples || [''],
       level: this.modalForm.value.level || ''
-    };
-  }
-  private addPhrasalVerb(phrasalVerb: PhrasalVerb) {
+    }
     this.phrasalVerbsService.addPhrasalVerb(phrasalVerb)
       .subscribe({
         next: () => {
@@ -105,18 +86,6 @@ export class ModalFormComponent implements OnInit {
       });
   }
 
-
-  private updatePhrasalVerb(phrasalVerb: PhrasalVerb) {
-    const phrasalVerbId = this.inputData.id;
-    const definitionId = this.inputData.definitionId;
-    this.phrasalVerbsService.updatePhrasalVerb(phrasalVerbId, definitionId, phrasalVerb)
-      .pipe(finalize(() => this.handleClose('Phrasal verb updated successfully!')))
-      .subscribe({
-        error: error => {
-          console.error('Error al actualizar phrasal verb:', error);
-        }
-      });
-  }
 
   private handleClose(title: string) {
     Swal.fire({
