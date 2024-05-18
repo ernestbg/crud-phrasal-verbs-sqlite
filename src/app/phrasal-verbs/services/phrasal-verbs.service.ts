@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { EventEmitter, Injectable } from '@angular/core';
+import { Observable, map } from 'rxjs';
 import { PhrasalVerb } from '../interfaces/phrasal-verb.interface';
 import { HttpClient } from '@angular/common/http';
 
@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class PhrasalVerbsService {
 
-  private baseUrl = 'http://localhost:3000/api/phrasal-verbs'; 
+  private baseUrl = 'http://localhost:3000/api/phrasal-verbs';
   constructor(private http: HttpClient) { }
 
   getAllPhrasalVerbs(): Observable<PhrasalVerb[]> {

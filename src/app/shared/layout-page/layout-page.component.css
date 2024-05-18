@@ -1,0 +1,13 @@
+.top-toolbar {
+    background-color: #f5f5f5; /* Gris claro */
+    color: black;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.content {
+    padding: 16px;
+    margin-top: 64px; /* Altura del mat-toolbar para evitar superposición */
+}

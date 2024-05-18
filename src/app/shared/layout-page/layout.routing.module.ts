@@ -11,8 +11,8 @@ const routes: Routes = [
     path: '',
     component: LayoutPageComponent,
     children: [
-      { path: 'phrasal-verbs-sqlite', component: ListPageComponent },
-      { path: 'phrasal-verbs-sqlite/:id/definition/:definitionId', component: DetailsPageComponent }
+      { path: '', component: ListPageComponent },
+      { path: 'details/:id/definition/:definitionId', component: DetailsPageComponent }
     ]
   }
 ];

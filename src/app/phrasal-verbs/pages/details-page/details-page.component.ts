@@ -39,6 +39,7 @@ export class DetailsPageComponent implements OnInit {
       next: (phrasalVerb: PhrasalVerb) => {
         if (!phrasalVerb) return this.router.navigate(['/dashboard/phrasal-verbs-sqlite']);
         this.phrasalVerb = phrasalVerb;
+        console.log(this.phrasalVerb)
         return;
       },
       error: (error) => {

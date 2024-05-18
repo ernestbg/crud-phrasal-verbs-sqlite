@@ -2,8 +2,10 @@
     margin-top: 10px;
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* Alinea los botones a la izquierda */
-    margin-left: 10px; /* Ajusta este valor para alinear el margen izquierdo */
+    justify-content: flex-start;
+    /* Alinea los botones a la izquierda */
+    margin-left: 10px;
+    /* Ajusta este valor para alinear el margen izquierdo */
     gap: 8px;
 }
 
@@ -12,17 +14,24 @@
     font-weight: bold;
     font-size: larger;
     margin-top: 8px;
-    margin-left: 15px; /* Añade un margen superior para separar el título de otros elementos */
+    margin-left: 15px;
+    /* Añade un margen superior para separar el título de otros elementos */
     margin-bottom: 5px;
 }
 
 /* Estilos para los elementos de ejemplo */
 .example-item {
-    display: flex; /* Usa flexbox para alinear el icono y el texto */
-    align-items: center; /* Alinea verticalmente el icono y el texto */
+    display: flex;
+    align-items: flex-start;
     margin-left: 15px;
     margin-top: 18px;
-   
+}
+
+/* Contenedor para el contenido del ejemplo */
+.example-content {
+    display: flex;
+    flex-direction: column;
+    margin-left: 8px;
 }
 
 /* Estilo para el texto de los ejemplos */
@@ -30,6 +39,7 @@
     font-size: larger;
 }
 
-  
-
-
+.example-translation {
+    color: gray;
+    margin-top: 4px;
+}

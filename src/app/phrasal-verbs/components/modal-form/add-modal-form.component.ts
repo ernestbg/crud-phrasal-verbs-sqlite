@@ -1,28 +1,31 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormArray, FormBuilder } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PhrasalVerbsService } from '../../services/phrasal-verbs.service';
 import Swal from 'sweetalert2';
-
-
 
 @Component({
   selector: 'app-add-modal-form',
   templateUrl: './add-modal-form.component.html',
   styleUrls: ['./add-modal-form.component.css']
 })
-export class AddModalFormComponent implements OnInit  {
+export class AddModalFormComponent implements OnInit {
 
   inputData: any;
   closeMessage = 'close';
 
-  examplesArray: FormArray= this.formBuilder.array([]); 
+  examplesArray: FormArray = this.formBuilder.array([]);
 
   modalForm = this.formBuilder.group({
     headword: this.formBuilder.control(''),
+    phonetics: this.formBuilder.control(''),
     definition: this.formBuilder.control(''),
-    examples: this.examplesArray,
+    definitionTranslation: this.formBuilder.control(''),
     level: this.formBuilder.control(''),
+    guideword: this.formBuilder.control(''),
+    dialect: this.formBuilder.control(''),
+    register: this.formBuilder.control(''),
+    examples: this.examplesArray
   });
 
   constructor(
@@ -34,14 +37,18 @@ export class AddModalFormComponent implements OnInit  {
 
   ngOnInit(): void {
     this.inputData = this.data;
+    this.addExample();
   }
 
   addExample(): void {
     const examplesArray = this.modalForm.get('examples') as FormArray;
-    examplesArray.push(this.formBuilder.control(''));
+    const exampleGroup = this.formBuilder.group({
+      text: this.formBuilder.control(''),
+      translation: this.formBuilder.control('')
+    });
+    examplesArray.push(exampleGroup);
   }
 
-  // Método para eliminar un ejemplo
   removeExample(index: number): void {
     const examplesArray = this.modalForm.get('examples') as FormArray;
     examplesArray.removeAt(index);
@@ -50,10 +57,16 @@ export class AddModalFormComponent implements OnInit  {
   addPhrasalVerb() {
     const phrasalVerb = {
       headword: this.modalForm.value.headword || '',
+      phonetics: this.modalForm.value.phonetics || '',
       definition: this.modalForm.value.definition || '',
-      examples: this.modalForm.value.examples || [''],
-      level: this.modalForm.value.level || ''
-    }
+      definitionTranslation: this.modalForm.value.definitionTranslation || '',
+      level: this.modalForm.value.level || '',
+      guideword: this.modalForm.value.guideword || '',
+      dialect: this.modalForm.value.dialect || '',
+      register: this.modalForm.value.register || '',
+      examples: this.modalForm.value.examples || []
+    };
+
     this.phrasalVerbsService.addPhrasalVerb(phrasalVerb)
       .subscribe({
         next: () => {
@@ -65,7 +78,7 @@ export class AddModalFormComponent implements OnInit  {
             Swal.fire({
               icon: 'error',
               title: 'Error',
-              text: 'Phrasal verb already exist.',
+              text: 'Phrasal verb already exists.',
               showConfirmButton: false,
               timer: 1500
             }).then(() => {
@@ -85,7 +98,6 @@ export class AddModalFormComponent implements OnInit  {
         }
       });
   }
-
 
   private handleClose(title: string) {
     Swal.fire({

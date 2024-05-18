@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AddModalFormComponent } from '../modal-form/add-modal-form.component';
-import { FormArray, FormBuilder } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { PhrasalVerbsService } from '../../services/phrasal-verbs.service';
 import { Observable, finalize } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -14,17 +14,21 @@ import { PhrasalVerb } from '../../interfaces/phrasal-verb.interface';
 })
 export class UpdateModalFormComponent {
 
-
   closeMessage = 'close';
   phrasalVerb?: PhrasalVerb;
   phrasalVerb$!: Observable<PhrasalVerb>;
-  examplesArray: FormArray= this.formBuilder.array([]); 
+  examplesArray: FormArray = this.formBuilder.array([]);
 
   modalForm = this.formBuilder.group({
     headword: this.formBuilder.control(''),
+    phonetics: this.formBuilder.control(''),
+    guideword: this.formBuilder.control(''),
+    dialect: this.formBuilder.control(''),
+    register: this.formBuilder.control(''),
     definition: this.formBuilder.control(''),
-    examples: this.examplesArray,
+    definitionTranslation: this.formBuilder.control(''),
     level: this.formBuilder.control(''),
+    examples: this.examplesArray,
   });
 
   constructor(
@@ -44,35 +48,50 @@ export class UpdateModalFormComponent {
 
     // Recupera el phrasal verb con la definición específica
     this.phrasalVerbsService.getPhrasalVerbById(phrasalVerbId, definitionId).subscribe(phrasalVerb => {
-        // Establece los valores de los campos headword, definition, y level
-        this.modalForm.patchValue({
-            headword: phrasalVerb.headword,
-            definition: phrasalVerb.definition,
-            level: phrasalVerb.level
-        });
+      // Establece los valores de los campos del formulario
+      this.modalForm.patchValue({
+        headword: phrasalVerb.headword,
+        phonetics: phrasalVerb.phonetics,
+        guideword: phrasalVerb.guideword,
+        dialect: phrasalVerb.dialect,
+        register: phrasalVerb.register,
+        definition: phrasalVerb.definition,
+        definitionTranslation: phrasalVerb.definitionTranslation,
+        level: phrasalVerb.level
+      });
 
-        // Obtén el FormArray de examples del formulario
-        const examplesArray = this.modalForm.get('examples') as FormArray;
+      // Limpia el array de examples antes de añadir los ejemplos nuevos
+      const examplesArray = this.modalForm.get('examples') as FormArray;
+      examplesArray.clear();
 
-        // Limpia el array de examples antes de añadir los ejemplos nuevos
-        examplesArray.clear();
-
-        // Añade un control para cada example de phrasalVerb.examples
-        phrasalVerb.examples.forEach(example => {
-            examplesArray.push(this.formBuilder.control(example));
-        });
+      // Añade un control para cada example de phrasalVerb.examples
+      phrasalVerb.examples.forEach(example => {
+        examplesArray.push(this.createExampleGroup(example));
+      });
     });
-}
+  }
+
+  createExampleGroup(example: any = { text: '', translation: '' }): FormGroup {
+    return this.formBuilder.group({
+      text: this.formBuilder.control(example.text),
+      translation: this.formBuilder.control(example.translation)
+    });
+  }
 
   updatePhrasalVerb() {
     const phrasalVerbId = this.data.id;
     const definitionId = this.data.definitionId;
     const phrasalVerb = {
       headword: this.modalForm.value.headword || '',
+      phonetics: this.modalForm.value.phonetics || '',
+      guideword: this.modalForm.value.guideword || '',
+      dialect: this.modalForm.value.dialect || '',
+      register: this.modalForm.value.register || '',
       definition: this.modalForm.value.definition || '',
+      definitionTranslation: this.modalForm.value.definitionTranslation || '',
       level: this.modalForm.value.level || '',
-      examples: this.modalForm.value.examples || ['']
-    }
+      examples: this.modalForm.value.examples || []
+    };
     this.phrasalVerbsService.updatePhrasalVerb(phrasalVerbId, definitionId, phrasalVerb)
       .pipe(finalize(() => this.handleClose('Phrasal verb updated successfully!')))
       .subscribe({
@@ -84,7 +103,7 @@ export class UpdateModalFormComponent {
 
   addExample(): void {
     const examplesArray = this.modalForm.get('examples') as FormArray;
-    examplesArray.push(this.formBuilder.control(''));
+    examplesArray.push(this.createExampleGroup());
   }
 
   // Método para eliminar un ejemplo
@@ -92,12 +111,6 @@ export class UpdateModalFormComponent {
     const examplesArray = this.modalForm.get('examples') as FormArray;
     examplesArray.removeAt(index);
   }
-
-
-
-
-  
-
 
   private handleClose(title: string) {
     Swal.fire({

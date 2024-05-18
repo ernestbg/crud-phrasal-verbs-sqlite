@@ -23,14 +23,41 @@
 mat-card-title,
 mat-card-subtitle,
 mat-card-content p {
-  display: -webkit-box; /* Necesario para usar line-clamp en navegadores basados en WebKit */
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2; /* Número máximo de líneas de texto permitidas */
-  overflow: hidden;
+    display: -webkit-box;
+    /* Necesario para usar line-clamp en navegadores basados en WebKit */
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    /* Número máximo de líneas de texto permitidas */
+    overflow: hidden;
 }
 
 
+/* Estilos globales o en el archivo CSS del componente */
 
+.loading-container,
+.error-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    /* Hace que el contenedor ocupe toda la altura de la ventana */
+    text-align: center;
+}
 
+.error-message p {
+    font-size: 1.5em;
+    color: gray;
+    /* Puedes personalizar el color según tus preferencias */
+}
 
+.error-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra verticalmente */
+}
 
+.error-icon {
+    color: gray;
+    margin-bottom: 2rem;
+    transform: scale(2.2);
+}

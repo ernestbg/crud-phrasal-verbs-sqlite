@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { PhrasalVerb } from '../../interfaces/phrasal-verb.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { PhrasalVerbsService } from '../../services/phrasal-verbs.service';
@@ -15,32 +15,38 @@ export class ListPageComponent implements OnInit {
   public filteredPhrasalVerbs: PhrasalVerb[] = [];
   public searchTerm: string = '';
   public totalItems: number = 0;
-  public pageSize: number = 2;
+  public pageSize: number = 15;
   public currentPage: number = 1;
   public pagedPhrasalVerbs: PhrasalVerb[] = []; // Esta es la lista de phrasal verbs a mostrar en la página actual
+  public hasConnectionError: boolean = false;
 
   constructor(private phrasalVerbsService: PhrasalVerbsService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.getAllPhrasalVerbs();
+    this.loadPhrasalVerbs();
   }
 
-  getAllPhrasalVerbs(): void {
+  loadPhrasalVerbs(): void {
     this.phrasalVerbsService.getAllPhrasalVerbs()
       .subscribe({
         next: response => {
           // Transforma la respuesta recibida para ajustarla a la interfaz PhrasalVerb
-          this.filteredPhrasalVerbs = this.transformPhrasalVerbs(response);
-          this.phrasalVerbs = this.filteredPhrasalVerbs; // Opcional
+          this.phrasalVerbs = this.transformPhrasalVerbs(response);
+          console.log(this.phrasalVerbs);
 
           // Actualiza el número total de elementos
-          this.totalItems = this.filteredPhrasalVerbs.length;
+          this.totalItems = this.phrasalVerbs.length;
+
+          // Llama a onPageChange para mostrar los primeros elementos paginados
+          this.onPageChange({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
         },
         error: error => {
           console.error('Error al obtener los phrasal verbs:', error);
+          this.hasConnectionError = true; // Establece el estado de conexión en true si hay un error
         },
       });
-  }
+}
+
 
   transformPhrasalVerbs(data: any[]): PhrasalVerb[] {
     // Inicializa un array para almacenar los datos transformados
@@ -76,7 +82,8 @@ export class ListPageComponent implements OnInit {
     return transformedData;
   }
 
-  search() {
+
+   search() {
     this.filteredPhrasalVerbs = this.phrasalVerbs.filter(phrasalVerb =>
       phrasalVerb.headword?.toLowerCase().includes(this.searchTerm.toLowerCase())
     ).sort((a, b) => {
@@ -85,7 +92,7 @@ export class ListPageComponent implements OnInit {
       return headwordA.localeCompare(headwordB);
     });
   }
-
+ 
   openModalForm(title: string, id?: string, definitionId?: string) {
     this.dialog.open(AddModalFormComponent, {
       width: '40%',

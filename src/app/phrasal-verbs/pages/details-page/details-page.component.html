@@ -9,13 +9,28 @@
 <div *ngIf="phrasalVerb; else divLoading">
     <mat-list>
         <mat-list-item>
-            <b>Headword: </b>{{phrasalVerb.headword}}
+            <b>Headword: </b>{{ phrasalVerb.headword }}
         </mat-list-item>
         <mat-list-item>
-            <b>Definition: </b>{{phrasalVerb.definition}}
+            <b>Phonetics: </b>{{ phrasalVerb.phonetics }}
         </mat-list-item>
         <mat-list-item>
-            <b>Level: </b>{{phrasalVerb.level}}
+            <b>Definition: </b>{{ phrasalVerb.definition }}
+        </mat-list-item>
+        <mat-list-item>
+            <b>Translation: </b>{{ phrasalVerb.definitionTranslation }}
+        </mat-list-item>
+        <mat-list-item>
+            <b>Level: </b>{{ phrasalVerb.level }}
+        </mat-list-item>
+        <mat-list-item>
+            <b>Guideword: </b>{{ phrasalVerb.guideword }}
+        </mat-list-item>
+        <mat-list-item>
+            <b>Dialect: </b>{{ phrasalVerb.dialect }}
+        </mat-list-item>
+        <mat-list-item>
+            <b>Register: </b>{{ phrasalVerb.register }}
         </mat-list-item>
         <!-- Estilo para el título "Examples" -->
         <div class="examples-title">
@@ -24,7 +39,10 @@
         <!-- Itera sobre los ejemplos -->
         <div *ngFor="let example of phrasalVerb.examples" class="example-item">
             <mat-icon>chevron_right</mat-icon>
-            <span class="example-text">{{example}}</span>
+            <div class="example-content">
+                <span class="example-text">{{ example.text }}</span>
+                <p class="example-translation"><i>{{ example.translation }}</i></p>
+            </div>
         </div>
     </mat-list>
 

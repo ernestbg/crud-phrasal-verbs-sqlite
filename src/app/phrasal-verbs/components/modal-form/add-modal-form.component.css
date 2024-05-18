@@ -1,13 +1,21 @@
+.example-container {
+    background-color: #f2f2f2; /* Color de fondo del contenedor de ejemplo */
+    padding: 12px; /* Espacio interno del contenedor */
+    margin-bottom: 12px; /* Espacio entre ejemplos */
+    position: relative; /* Necesario para la posición absoluta del botón de eliminar */
+}
+
+.example-container button {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 .mat-mdc-form-field {
     width: 100%;
 }
-
 
 .mat-success {
     background-color: green;
     color: #fff;
 }
-
-
-
-  
