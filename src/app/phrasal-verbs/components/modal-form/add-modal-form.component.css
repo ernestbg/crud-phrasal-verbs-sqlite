@@ -1,14 +1,21 @@
 .example-container {
-    background-color: #f2f2f2; /* Color de fondo del contenedor de ejemplo */
-    padding: 12px; /* Espacio interno del contenedor */
-    margin-bottom: 12px; /* Espacio entre ejemplos */
-    position: relative; /* Necesario para la posición absoluta del botón de eliminar */
+    background-color: #f2f2f2;
+    padding: 12px;
+    margin-bottom: 12px;
+    position: relative;
+
 }
 
 .example-container button {
     position: absolute;
     top: 0;
     right: 0;
+
+}
+
+.mat-mdc-dialog-content {
+    padding: 12px;
+    margin-bottom: 12px;
 }
 
 .mat-mdc-form-field {
@@ -18,4 +25,27 @@
 .mat-success {
     background-color: green;
     color: #fff;
+    width: 150px;
+    margin-left: 100px;
+}
+
+.mat-warn {
+    width: 150px;
+}
+
+
+.mat-dialog {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    padding-bottom: 20px;
+}
+
+
+.add-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
 }

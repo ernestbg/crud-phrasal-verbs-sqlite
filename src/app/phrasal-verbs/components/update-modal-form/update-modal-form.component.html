@@ -1,7 +1,7 @@
 <div class="form-container">
     <form [formGroup]="modalForm" (ngSubmit)="updatePhrasalVerb()">
         <h1 mat-dialog-title>Update</h1>
-        <div mat-dialog-content>
+        <div class="mat-mdc-dialog-content">
             <mat-form-field>
                 <mat-label>Headword</mat-label>
                 <input formControlName="headword" matInput>
@@ -9,18 +9,6 @@
             <mat-form-field>
                 <mat-label>Phonetics</mat-label>
                 <input formControlName="phonetics" matInput>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Guideword</mat-label>
-                <input formControlName="guideword" matInput>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Dialect</mat-label>
-                <input formControlName="dialect" matInput>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Register</mat-label>
-                <input formControlName="register" matInput>
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Definition</mat-label>
@@ -34,10 +22,24 @@
                 <mat-label>Level</mat-label>
                 <input formControlName="level" matInput>
             </mat-form-field>
+            <mat-form-field>
+                <mat-label>Guideword</mat-label>
+                <input formControlName="guideword" matInput>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Dialect</mat-label>
+                <input formControlName="dialect" matInput>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Register</mat-label>
+                <input formControlName="register" matInput>
+            </mat-form-field>
 
             <!-- Itera sobre el FormArray para los ejemplos -->
             <div formArrayName="examples">
-                <div *ngFor="let exampleGroup of examplesArray.controls; let i = index" [formGroupName]="i">
+                <div *ngFor="let exampleGroup of examplesArray.controls; let i = index" [formGroupName]="i"
+                    class="example-container">
+                    <!-- Agregamos una clase example-container para el estilo del contenedor -->
                     <mat-form-field>
                         <mat-label>Example {{i + 1}} Text</mat-label>
                         <input formControlName="text" matInput>
@@ -51,12 +53,17 @@
                     </button>
                 </div>
             </div>
-            <!-- Botón para agregar un nuevo ejemplo -->
-            <button type="button" mat-raised-button color="primary" (click)="addExample()">Add Example</button>
-        </div>
-        <div mat-dialog-actions>
-            <button type="submit" color="primary" mat-raised-button>Save</button>
-            <button type="button" color="warn" mat-raised-button (click)="closeModalForm()">Cancel</button>
+            <div class="add-button-container">
+                <button type="button" color="primary" mat-raised-button (click)="addExample()">
+                    <mat-icon>add</mat-icon>
+                    Add example
+                </button>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="mat-dialog">
+                <button type="submit" color="success" mat-raised-button>Save</button>
+                <button type="button" color="warn" mat-raised-button (click)="closeModalForm()">Cancel</button>
+            </div>
         </div>
     </form>
 </div>

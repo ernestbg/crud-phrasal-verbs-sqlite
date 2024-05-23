@@ -14,58 +14,64 @@
     </div>
 </div>
 
-<ng-container *ngIf="searchTerm; else defaultView">
-    <div class="grid bm-8 ml-2">
-        <div *ngFor="let phrasalVerb of filteredPhrasalVerbs" class="col-12 sm:col-4 md:col-3 xl:col-2">
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>{{phrasalVerb.headword}}</mat-card-title>
-                </mat-card-header>
-                <mat-card-content class="mt-2">
-                    <mat-card-subtitle>{{phrasalVerb.definition}}</mat-card-subtitle>
-                </mat-card-content>
-                <mat-divider></mat-divider>
-                <mat-card-actions>
-                    <span class="spacer"></span>
-                    <button mat-button mat-raised color="primary"
-                        [routerLink]="['/dashboard/details', phrasalVerb.id, 'definition', phrasalVerb.definitionId]">
-                        <mat-icon>more_horiz</mat-icon>More
-                    </button>
-                </mat-card-actions>
-            </mat-card>
+<ng-container *ngIf="!hasConnectionError; else errorView">
+    <ng-container *ngIf="searchTerm; else defaultView">
+        <div class="grid bm-8 ml-2">
+            <div *ngFor="let phrasalVerb of filteredPhrasalVerbs" class="col-12 sm:col-4 md:col-3 xl:col-2">
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title>{{phrasalVerb.headword}}</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content class="mt-2">
+                        <mat-card-subtitle>{{phrasalVerb.definition}}</mat-card-subtitle>
+                    </mat-card-content>
+                    <mat-divider></mat-divider>
+                    <mat-card-actions>
+                        <span class="spacer"></span>
+                        <button mat-button mat-raised color="primary"
+                            [routerLink]="['/dashboard/details', phrasalVerb.id, 'definition', phrasalVerb.definitionId]">
+                            <mat-icon>more_horiz</mat-icon>More
+                        </button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
         </div>
-    </div>
+    </ng-container>
+
+    <ng-template #defaultView>
+        <div *ngIf="pagedPhrasalVerbs.length === 0" class="message">
+            <mat-icon class="icon">info_outline</mat-icon>
+            <p>No data available.</p>
+        </div>
+        <div class="grid bm-8 ml-2" *ngIf="pagedPhrasalVerbs.length > 0">
+            <div *ngFor="let phrasalVerb of pagedPhrasalVerbs" class="col-12 sm:col-4 md:col-3 xl:col-2">
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title>{{phrasalVerb.headword}}</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content class="mt-2">
+                        <mat-card-subtitle>{{phrasalVerb.definition}}</mat-card-subtitle>
+                    </mat-card-content>
+                    <mat-divider></mat-divider>
+                    <mat-card-actions>
+                        <span class="spacer"></span>
+                        <button mat-button mat-raised color="primary"
+                            [routerLink]="['/dashboard/details', phrasalVerb.id, 'definition', phrasalVerb.definitionId]">
+                            <mat-icon>more_horiz</mat-icon>More
+                        </button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </div>
+        <mat-paginator *ngIf="pagedPhrasalVerbs.length > 0" [length]="totalItems" [pageSize]="pageSize"
+            [pageSizeOptions]="[10, 15, 20]" (page)="onPageChange($event)"></mat-paginator>
+    </ng-template>
 </ng-container>
 
-<ng-template #defaultView>
-    <div class="grid bm-8 ml-2">
-        <div *ngFor="let phrasalVerb of pagedPhrasalVerbs" class="col-12 sm:col-4 md:col-3 xl:col-2">
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>{{phrasalVerb.headword}}</mat-card-title>
-                </mat-card-header>
-                <mat-card-content class="mt-2">
-                    <mat-card-subtitle>{{phrasalVerb.definition}}</mat-card-subtitle>
-                </mat-card-content>
-                <mat-divider></mat-divider>
-                <mat-card-actions>
-                    <span class="spacer"></span>
-                    <button mat-button mat-raised color="primary"
-                        [routerLink]="['/dashboard/details', phrasalVerb.id, 'definition', phrasalVerb.definitionId]">
-                        <mat-icon>more_horiz</mat-icon>More
-                    </button>
-                </mat-card-actions>
-            </mat-card>
-        </div>
-    </div>
-    <!-- Only show paginator if there are pagedPhrasalVerbs -->
-    <mat-paginator *ngIf="pagedPhrasalVerbs.length > 0" [length]="totalItems" [pageSize]="pageSize"
-        [pageSizeOptions]="[10, 15, 20]" (page)="onPageChange($event)">
-    </mat-paginator>
-</ng-template>
-
 <!-- Mostrar mensaje de error si no hay conexión con el servidor -->
-<div *ngIf="hasConnectionError" class="error-message">
-    <mat-icon class="error-icon">error_outline</mat-icon>
-    <p>ERROR: Unable to retrieve data from the server. Please try again later.</p>
-</div>
+<ng-template #errorView>
+    <div class="message">
+        <mat-icon class="icon">error_outline</mat-icon>
+        <p>ERROR: Unable to retrieve data from the server. Please try again later.</p>
+    </div>
+</ng-template>

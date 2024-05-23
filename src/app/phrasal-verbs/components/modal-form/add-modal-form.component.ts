@@ -66,7 +66,6 @@ export class AddModalFormComponent implements OnInit {
       register: this.modalForm.value.register || '',
       examples: this.modalForm.value.examples || []
     };
-
     this.phrasalVerbsService.addPhrasalVerb(phrasalVerb)
       .subscribe({
         next: () => {

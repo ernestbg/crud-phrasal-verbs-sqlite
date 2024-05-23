@@ -37,7 +37,7 @@ export class DetailsPageComponent implements OnInit {
     );
     this.phrasalVerb$.subscribe({
       next: (phrasalVerb: PhrasalVerb) => {
-        if (!phrasalVerb) return this.router.navigate(['/dashboard/phrasal-verbs-sqlite']);
+        if (!phrasalVerb) return this.router.navigate(['/dashboard']);
         this.phrasalVerb = phrasalVerb;
         console.log(this.phrasalVerb)
         return;
@@ -65,7 +65,7 @@ export class DetailsPageComponent implements OnInit {
     });
   }
 
-  
+
 
 
 
@@ -92,7 +92,7 @@ export class DetailsPageComponent implements OnInit {
                 // Eliminación exitosa
                 console.log('Phrasal verb and definition deleted successfully.');
                 // Redirige a la página de phrasal verbs
-                this.router.navigate(['/dashboard/phrasal-verbs-sqlite']);
+                this.router.navigate(['/dashboard']);
                 // Muestra un mensaje de éxito
                 Swal.fire({
                   icon: 'success',

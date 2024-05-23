@@ -1,7 +1,7 @@
 <div class="form-container">
     <form [formGroup]="modalForm" (ngSubmit)="addPhrasalVerb()">
         <h1 mat-dialog-title>{{ inputData.title }}</h1>
-        <div mat-dialog-content>
+        <div class="mat-mdc-dialog-content">
             <mat-form-field>
                 <mat-label>Headword</mat-label>
                 <input formControlName="headword" matInput>
@@ -37,7 +37,8 @@
 
             <!-- Itera sobre el FormArray para los ejemplos -->
             <div formArrayName="examples">
-                <div *ngFor="let exampleGroup of examplesArray.controls; let i = index" [formGroupName]="i" class="example-container">
+                <div *ngFor="let exampleGroup of examplesArray.controls; let i = index" [formGroupName]="i"
+                    class="example-container">
                     <!-- Agregamos una clase example-container para el estilo del contenedor -->
                     <mat-form-field>
                         <mat-label>Example {{i + 1}} Text</mat-label>
@@ -52,12 +53,17 @@
                     </button>
                 </div>
             </div>
-            <!-- Botón para agregar un nuevo ejemplo -->
-            <button type="button" mat-raised-button color="primary" (click)="addExample()">Add Example</button>
-        </div>
-        <div mat-dialog-actions>
-            <button type="submit" color="success" mat-raised-button>Save</button>
-            <button type="button" color="warn" mat-raised-button (click)="closeModalForm()">Cancel</button>
+            <div class="add-button-container">
+                <button type="button" color="primary" mat-raised-button (click)="addExample()">
+                    <mat-icon>add</mat-icon>
+                    Add example
+                </button>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="mat-dialog">
+                <button type="submit" color="success" mat-raised-button>Save</button>
+                <button type="button" color="warn" mat-raised-button (click)="closeModalForm()">Cancel</button>
+            </div>
         </div>
     </form>
 </div>
